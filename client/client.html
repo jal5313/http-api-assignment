@@ -18,19 +18,35 @@
       switch(xhr.status) {
         case 200: //success
           content.innerHTML = `<b>Success</b>`;
-          message.innerHTML = obj.message;
+          message.innerHTML = `Message: ${obj.message}`;
           break;
         case 400: //bad request 
           content.innerHTML = `<b>Bad Request</b>`;
-          message.innerHTML = obj.message;
+          message.innerHTML = `Message: ${obj.message}`;
+          break;
+        case 401: //unauthorized
+          content.innerHTML = `<b>Unauthorized</b>`;
+          message.innerHTML = `Message: ${obj.message}`;
+          break;
+        case 403: //forbidden
+          content.innerHTML = `<b>Forbidden</b>`;
+          message.innerHTML = `Message: ${obj.message}`;
           break;
         case 404: //not found (requested resource does not exist)
           content.innerHTML = `<b>Resource Not Found</b>`;
-          message.innerHTML = obj.message;
+          message.innerHTML = `Message: ${obj.message}`;
+          break;
+        case 500: //internal
+          content.innerHTML = `<b>Internal Server Error</b>`;
+          message.innerHTML = `Message: ${obj.message}`;
+          break;
+        case 501: //notImplemented
+          content.innerHTML = `<b>Not Implemented</b>`;
+          message.innerHTML = `Message: ${obj.message}`;
           break;
         default: //default other errors we are not handling in this example
           content.innerHTML = `Error code not implemented by client.`;
-          message.innerHTML = obj.message;
+          message.innerHTML = `Message: ${obj.message}`;
           break;
       }
     };

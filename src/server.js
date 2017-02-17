@@ -9,24 +9,28 @@ const jsonHandler = require('./jsonResponses.js');
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const urlStruct = {
-    '/': htmlHandler.getIndex,
-    '/style.css': cssHandler.getStyle,
-    '/success': jsonHandler.success,
-    '/badRequest': jsonHandler.badRequest,
-    notFound: jsonHandler.notFound,
+  '/': htmlHandler.getIndex,
+  '/style.css': cssHandler.getStyle,
+  '/success': jsonHandler.success,
+  '/badRequest': jsonHandler.badRequest,
+  '/unauthorized': jsonHandler.unauthorized,
+  '/forbidden': jsonHandler.forbidden,
+  '/internal': jsonHandler.internal,
+  '/notImplemented': jsonHandler.notImplemented,
+  notFound: jsonHandler.notFound,
 };
 
 const onRequest = (request, response) => {
   console.log(request.url);
-    
-    const parsedUrl = url.parse(request.url);
-    const params = query.parse(parsedUrl.query);
-    
-    if (urlStruct[parsedUrl.pathname]) {
-        urlStruct[parsedUrl.pathname](request, response, params);
-    } else {
-        urlStruct.notFound(request, response, params);
-    }
+
+  const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
+
+  if (urlStruct[parsedUrl.pathname]) {
+    urlStruct[parsedUrl.pathname](request, response, params);
+  } else {
+    urlStruct.notFound(request, response, params);
+  }
 };
 
 http.createServer(onRequest).listen(port);
