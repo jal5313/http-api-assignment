@@ -1,24 +1,32 @@
 const http = require('http');
+const url = require('url');
+const query = require('querystring');
+
 const htmlHandler = require('./htmlResponses.js');
 const cssHandler = require('./cssResponses.js');
 const jsonHandler = require('./jsonResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+const urlStruct = {
+    '/': htmlHandler.getIndex,
+    '/style.css': cssHandler.getStyle,
+    '/success': jsonHandler.success,
+    '/badRequest': jsonHandler.badRequest,
+    notFound: jsonHandler.notFound,
+};
+
 const onRequest = (request, response) => {
   console.log(request.url);
-
-  switch (request.url) {
-    case '/':
-      htmlHandler.getIndex(request, response);
-      break;
-    case '/style.css':
-      cssHandler.getStyle(request, response);
-      break;
-    default:
-      htmlHandler.getIndex(request, response);
-      break;
-  }
+    
+    const parsedUrl = url.parse(request.url);
+    const params = query.parse(parsedUrl.query);
+    
+    if (urlStruct[parsedUrl.pathname]) {
+        urlStruct[parsedUrl.pathname](request, response, params);
+    } else {
+        urlStruct.notFound(request, response, params);
+    }
 };
 
 http.createServer(onRequest).listen(port);
