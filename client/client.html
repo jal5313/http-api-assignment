@@ -9,6 +9,7 @@
     const handleResponse = (xhr) => {
       //grab the content section
       const content = document.querySelector("#content");
+      const message = document.querySelector("#message");
       
       ///parse the response text into a JSON object
       const obj = JSON.parse(xhr.response);
@@ -17,15 +18,19 @@
       switch(xhr.status) {
         case 200: //success
           content.innerHTML = `<b>Success</b>`;
+          message.innerHTML = obj.message;
           break;
         case 400: //bad request 
           content.innerHTML = `<b>Bad Request</b>`;
+          message.innerHTML = obj.message;
           break;
         case 404: //not found (requested resource does not exist)
           content.innerHTML = `<b>Resource Not Found</b>`;
+          message.innerHTML = obj.message;
           break;
         default: //default other errors we are not handling in this example
           content.innerHTML = `Error code not implemented by client.`;
+          message.innerHTML = obj.message;
           break;
       }
     };
@@ -82,6 +87,8 @@
     <button id="send">Send</button>
   </section>
   <section id="content">
+  </section>
+  <section id="message">
   </section>
 </body>
 </html>
